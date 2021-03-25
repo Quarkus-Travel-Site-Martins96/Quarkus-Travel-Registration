@@ -13,6 +13,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import javax.enterprise.context.RequestScoped;
 
 import org.apache.commons.io.IOUtils;
 import org.jboss.logging.Logger;
@@ -20,6 +21,7 @@ import org.jboss.logging.Logger;
 import com.lucamartinelli.app.travelsite.registration.util.ResourceUtils;
 import com.lucamartinelli.app.travelsite.registration.vo.UserVO;
 
+@RequestScoped
 public class CryptoEJBImpl implements CryptoEJB {
 
 	private static final String AES_KEY_CLASSPATH = "META-INF/secrets/aes-key";
