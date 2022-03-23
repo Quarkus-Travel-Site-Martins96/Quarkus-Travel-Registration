@@ -1,0 +1,78 @@
+nav {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	font-size: 1.5em;
+	text-shadow: 0 0 2px black;
+}
+
+nav div {
+	margin: 5px 10px;
+	align-self: center;
+}
+
+nav div:last-child {
+	margin-left: auto;
+}
+
+.u-clearfix:after, .u-clearfix:before {
+	content: '';
+	display: table;
+}
+
+.u-clearfix:after {
+	clear: both;
+}
+
+header {
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 100;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	transition: top 0.3s;
+}
+
+img {
+	height: auto;
+	max-height: 50px;
+	border-radius: 40px;
+	box-shadow: 0 0 5px rgba(255, 255, 255, 0.75);
+}
+
+a {
+	text-decoration: none;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.user-mngmnt {
+	padding: 10px 20px;
+	background-color: rgba(200,200,200,0.8);
+	border: 1px solid #fff;
+	border-radius: 10px;
+	
+	position: absolute;
+	right: 10px;
+   	top  : 50px;
+	opacity: 0;
+	transition: linear 0.5s;
+	
+	display: block;
+	font-variant: small-caps;
+}
+
+.user-mngmnt a {
+	margin: 5px 0;
+	color: black;
+	font-size: 0.6em;
+	float: left;
+    clear: left;
+}
+
+.logged:hover .user-mngmnt,
+.logged:active .user-mngmnt,
+.logged:focus .user-mngmnt {
+	opacity: 1;
+	top  : 70px;
+}
+

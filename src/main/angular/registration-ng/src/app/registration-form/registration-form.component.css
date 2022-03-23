@@ -1,0 +1,171 @@
+html {
+	min-width: 300px;
+	word-wrap: break-word;
+}
+
+.container {
+	width: 95%;
+	background: #ddd;
+}
+.content {
+	display: flex;
+	justify-content: space-around;
+	margin: 0 auto;
+	padding: 25px 0;
+	flex-wrap: wrap;
+}
+
+.form-image,
+.form-data{
+	display: inline-block;
+	margin: 0 5% 25px 5%;
+	vertical-align: top;
+}
+
+.user-manager-content {
+	margin: 10px 2%;
+}
+
+.form-element.input-section {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 25px;
+}
+
+.input-section label:first-child {
+	margin-top: 0;
+}
+.input-section label {
+	margin-top: 10px;
+}
+
+.image-error {
+	color: red;
+	font-weight: bold;
+	display: none;
+}
+
+.image-upload-info {
+	border: 1px solid #666;
+	margin: 10px 0;
+	padding: 10px;
+	font-size: 0.75em;
+}
+
+.data-birth-input input {
+	width: 75%;
+}
+
+
+/** INPUT SECTION */
+
+input {
+	vertical-align: middle;
+	background-color: #eee;
+	padding: 10px;
+	border: 2px solid #666;
+	border-radius: 5px;
+	color: black;
+	transition: linear 2s;
+}
+
+input[type="file"] {
+	width: calc(100% - 20px);
+	margin-bottom: 10px;
+}
+
+input:active,
+input:focus {
+	outline: none;
+	-webkit-animation: border-animation 3s;
+	animation:         border-animation 3s;
+	animation-fill-mode: forwards;
+	-webkit-animation-fill-mode: forwards;
+}
+
+
+@keyframes border-animation {
+  0%   { border-left-color: #3593d7; }
+  50%  { border-left-color: #3593d7; border-top-color: #3593d7; border-bottom-color: #3593d7; }
+  100% { border-color: #3593d7; }
+}
+
+@-webkit-keyframes border-animation {
+  0%   { border-left-color: #3593d7; }
+  50%  { border-left-color: #3593d7; border-top-color: #3593d7; border-bottom-color: #3593d7; }
+  100% { border-color: #3593d7; }
+}
+
+
+/* BUTTON SECTION */
+.form-element.button-section {
+	width: 30px;
+	height: 30px;
+	display: flex;
+	justify-content: flex-end;
+	margin-left: auto;
+}
+
+button {
+	width: 30px;
+	height: 30px;
+	border-radius: 50px;
+	border: none;
+	background-color: #666;
+	transition: 2s;
+}
+
+button:active,
+button .bg:active,
+button span:active,
+button:focus,
+button .bg:focus,
+button span:focus {
+	outline: none;
+}
+
+button .bg {
+	height: 100%;
+	width: 100%;
+	background-image: url(../../assets/images/v.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: left;
+}
+button span {
+	opacity: 0;
+	margin: auto 0;
+	white-space: nowrap;
+	display: flex;
+	justify-content: flex-end;
+}
+
+button:hover {
+	width: auto;
+}
+button:hover span {
+	line-height: 30px;
+	opacity: 1;
+	padding-left: 30px;
+	font-weight: bold;
+	color: #eee;
+	transition: 1s;
+}
+
+
+.courtesy-page {
+	color: red;
+	display: flex;
+	justify-content: space-around;
+	min-height: 250px;
+	width: 100%;
+    background: #ddd;
+}
+
+.err-msg {
+	text-align: center;
+	font-size: 1em;
+	font-weight: bold;
+	margin: auto;
+}
+

@@ -1,0 +1,36 @@
+<div class="form-data">
+	<form (ngSubmit)="update()">
+		<div class="registration-form">
+			<div class="form-element input-section">
+				<label for="name-input">Name</label> <input type="text"
+					class="registration-input-text" id="name" name="name"
+					[(ngModel)]="name" /> <label
+					for="surname-input">Surname</label> <input type="text"
+					class="registration-input-text" id="surname" name="surname"
+					[(ngModel)]="surname" /> <label
+					for="country-input">Country</label> <input type="text"
+					class="uregistration-input-text" id="country" name="country"
+					[(ngModel)]="country" /> <label
+					for="country-input">Birthdate</label>
+				<div class="data-birth-input">
+					<input matInput [matDatepicker]="picker" [max]="maxDate"
+						(dateInput)="OnDateChange($event.value)"
+						placeholder="Birthdate">
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+				</div>
+				<label for="email-input">Email</label> <input type="email"
+					class="registration-input-text" id="email" name="email"
+					[(ngModel)]="email" />
+			</div>
+			<div class="form-element button-section">
+				<button type="submit" class="usermanager-btn"
+					id="user-update-button">
+					<div class="bg">
+						<span id="user-update-button-span">Submit new fields</span>
+					</div>
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
