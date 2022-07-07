@@ -6,10 +6,9 @@ import java.sql.SQLException;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.inject.Provider;
+import javax.inject.Named;
 
 import org.apache.commons.io.IOUtils;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import com.lucamartinelli.app.travelsite.registration.dao.RegistrationDAO;
@@ -29,9 +28,27 @@ public class RegistrationEJBImpl implements RegistrationEJB {
 	
 	@Inject MailEJB mailEJB;
 	@Inject CryptoEJB cryptEJB;
-	@Inject Provider<RegistrationDAO> daoProvider;
-	@ConfigProperty(name="registration.mode", defaultValue = "IN_MEMORY")
-	String regMode;
+	@Inject @Named("factory") RegistrationDAO dao;
+	
+	@Override
+	public Boolean alreadyUsed(String username) {
+		if (username == null || username.trim().isEmpty()) {
+			log.debug("Username is empty");
+			return true;
+		}
+		
+		try {
+			if (!dao.checkUsernameFree(username)) {
+				log.debug(String.format("Username %s already in use", username));
+			}
+		} catch (SQLException e) {
+			log.error("Error during call DAO check username", e);
+			return true;
+		}
+		
+		log.debug("Username " + username + " is free to use");
+		return false;
+	}
 
 	@Override
 	public OperationStatusResponseVO checkUser(UserVO user) {
@@ -70,18 +87,15 @@ public class RegistrationEJBImpl implements RegistrationEJB {
 			err.setError("Password is empty");
 			return err;
 		}
-		if (regMode.equalsIgnoreCase("DB")) {
-			final RegistrationDAO dao = daoProvider.get();
-			try {
-				if (!dao.checkUsernameFree(user.getUsername())) {
-					err.setError("Username is already in use");
-					return err;
-				}
-			} catch (SQLException e) {
-				log.error("Error during connection to DB: ", e);
+		try {
+			if (!dao.checkUsernameFree(user.getUsername())) {
 				err.setError("Username is already in use");
 				return err;
 			}
+		} catch (SQLException e) {
+			log.error("Error during connection to DB: ", e);
+			err.setError("Username is already in use");
+			return err;
 		}
 		
 		return ok;
@@ -112,7 +126,6 @@ public class RegistrationEJBImpl implements RegistrationEJB {
 			return false;
 		}
 		
-		final RegistrationDAO dao = daoProvider.get();
 		try {
 			final boolean daoResult = dao.registerUser(user);
 			if (daoResult) {

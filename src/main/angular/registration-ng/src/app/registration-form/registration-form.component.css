@@ -32,6 +32,15 @@ html {
 	margin-bottom: 25px;
 }
 
+.loading-username-check img{
+	width: 25px;
+	margin-top: 5px;
+}
+
+.username-passed {
+	color: #1a1;
+}
+
 .input-section label:first-child {
 	margin-top: 0;
 }
@@ -152,6 +161,18 @@ button:hover span {
 	transition: 1s;
 }
 
+button:disabled {
+	background-color: #9996;
+}
+
+button:disabled span{
+	color: #111 ;
+}
+
+button:disabled .bg {
+	background-image: none;
+}
+
 
 .courtesy-page {
 	color: red;
@@ -167,5 +188,14 @@ button:hover span {
 	font-size: 1em;
 	font-weight: bold;
 	margin: auto;
+}
+
+.error {
+	color: #a11;
+}
+
+.error.missing-field {
+	font-size: 0.8em;
+	font-style: italic;
 }
 

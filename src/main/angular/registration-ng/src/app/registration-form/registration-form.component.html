@@ -2,32 +2,74 @@
 	<form (ngSubmit)="update()">
 		<div class="registration-form">
 			<div class="form-element input-section">
+				<label for="name-input">Username</label> <input type="text"
+					class="registration-input-text input-username" id="username" name="username"
+					(blur)="checkUsername()"
+					[style.border-color]="usernameMissing ? '#c11' : '#666'"
+					[(ngModel)]="username"/>
+				<span class="loading-username-check" *ngIf="usernameChecking">
+					<img src="assets/images/loading-username.gif" title="Check Username..."/>
+				</span>
+				<span class="username-passed" *ngIf="usernameFree">
+					Username is available
+				</span>
+				<span class="error" [style.display]="usernameAlreadyInUse ? 'block' : 'none'">
+					Username already in use,<br/> 
+					please select another one
+				</span>
+				<span class="error missing-field" [style.display]="usernameMissing ? 'block' : 'none'">
+					Field username is required
+				</span>
 				<label for="name-input">Name</label> <input type="text"
 					class="registration-input-text" id="name" name="name"
-					[(ngModel)]="name" /> <label
+					[style.border-color]="nameMissing ? '#c11' : '#666'"
+					[(ngModel)]="name" />
+				<span class="error missing-field" [style.display]="nameMissing ? 'block' : 'none'">
+					Field name is required
+				</span>
+				<label
 					for="surname-input">Surname</label> <input type="text"
 					class="registration-input-text" id="surname" name="surname"
-					[(ngModel)]="surname" /> <label
+					[style.border-color]="surnameMissing ? '#c11' : '#666'"
+					[(ngModel)]="surname" />
+				<span class="error missing-field" [style.display]="surnameMissing ? 'block' : 'none'">
+					Field surname is required
+				</span>
+				<label
 					for="country-input">Country</label> <input type="text"
 					class="uregistration-input-text" id="country" name="country"
-					[(ngModel)]="country" /> <label
+					[style.border-color]="countryMissing ? '#c11' : '#666'"
+					[(ngModel)]="country" />
+				<span class="error missing-field" [style.display]="countryMissing ? 'block' : 'none'">
+					Field country is required
+				</span>
+				<label
 					for="country-input">Birthdate</label>
 				<div class="data-birth-input">
 					<input matInput [matDatepicker]="picker" [max]="maxDate"
 						(dateInput)="OnDateChange($event.value)"
+						[style.border-color]="birthdateMissing ? '#c11' : '#666'"
 						placeholder="Birthdate">
 					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 					<mat-datepicker #picker></mat-datepicker>
 				</div>
+				<span class="error missing-field" [style.display]="birthdateMissing ? 'block' : 'none'">
+					Field birthdate is required
+				</span>
 				<label for="email-input">Email</label> <input type="email"
 					class="registration-input-text" id="email" name="email"
+					[style.border-color]="emailMissing ? '#c11' : '#666'"
 					[(ngModel)]="email" />
+				<span class="error missing-field" [style.display]="emailMissing ? 'block' : 'none'">
+					Field email is required
+				</span>
 			</div>
 			<div class="form-element button-section">
 				<button type="submit" class="usermanager-btn"
+					[disabled]="usernameChecking"
 					id="user-update-button">
 					<div class="bg">
-						<span id="user-update-button-span">Submit new fields</span>
+						<span id="user-update-button-span">{{ subBtnText }}</span>
 					</div>
 				</button>
 			</div>

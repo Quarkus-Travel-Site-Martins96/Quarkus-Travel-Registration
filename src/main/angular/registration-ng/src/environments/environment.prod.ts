@@ -7,7 +7,6 @@ export const environment = {
 };
 
 
-
 @Injectable({
 	providedIn: 'root'
 })
@@ -41,6 +40,12 @@ export class Environment {
 		if (!this.singleton.userMngHost)
 			this.singleton.userMngHost = RestServiceEnvUrl.getHostUrl('user-management');
 		return this.singleton.userMngHost;
+	}
+
+	public static getRegistrationHost(): string {
+		if (!this.singleton.registrationHost)
+			this.singleton.registrationHost = RestServiceEnvUrl.getHostUrl('registration');
+		return this.singleton.registrationHost;
 	}
 	
 	

@@ -17,6 +17,17 @@ import com.lucamartinelli.app.travelsite.registration.vo.UserVO;
 public interface RegistrationEJB {
 	
 	/**
+	 * Check if the username is already in use by an other user
+	 * 
+	 * 
+	 * @param username - For the check
+	 * @return A boolean that indicate:
+	 *   <code>TRUE</code> - means that username is already in use and not valid for a new registration
+	 *   <code>FALSE</code> - means that username is free and available for a new registration
+	 */
+	public Boolean alreadyUsed(String username);
+	
+	/**
 	 * Check if the user data are valid for the registration
 	 * 
 	 * 

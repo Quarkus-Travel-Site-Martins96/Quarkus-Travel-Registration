@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -21,6 +22,7 @@ import com.lucamartinelli.app.travelsite.registration.vo.MailServiceException;
 import com.lucamartinelli.app.travelsite.registration.vo.OperationStatusResponseVO;
 import com.lucamartinelli.app.travelsite.registration.vo.RegistrationException;
 import com.lucamartinelli.app.travelsite.registration.vo.UserVO;
+import com.lucamartinelli.app.travelsite.registration.vo.UsernameAlreadyUsedVO;
 
 @Path("/registration")
 public class Registration {
@@ -31,6 +33,23 @@ public class Registration {
 	
 	@Context HttpServletResponse response;
 	
+	@GET
+	@Path("/already-used/{username}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public UsernameAlreadyUsedVO alreadyInUse(@PathParam("username") String username) {
+		try {
+			Thread.sleep(4000L);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		final boolean inUse = regEJB.alreadyUsed(username);
+		UsernameAlreadyUsedVO res = new UsernameAlreadyUsedVO();
+		res.setAlreadyUsed(inUse);
+		
+		return res;
+	}
 	
 	@POST
 	@Path("/check")

@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Default;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.jboss.logging.Logger;
 
@@ -18,7 +18,7 @@ import com.lucamartinelli.app.travelsite.registration.vo.UserVO;
 import io.agroal.api.AgroalDataSource;
 
 @RequestScoped
-@Default
+@Named("DBDAO")
 public class RegistrationDAOImpl implements RegistrationDAO {
 	
 	private static final String INSERT_NEW_USER = "INSERT INTO users "
