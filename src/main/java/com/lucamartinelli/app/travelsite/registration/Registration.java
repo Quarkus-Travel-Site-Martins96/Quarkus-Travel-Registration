@@ -37,13 +37,6 @@ public class Registration {
 	@Path("/already-used/{username}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public UsernameAlreadyUsedVO alreadyInUse(@PathParam("username") String username) {
-		try {
-			Thread.sleep(4000L);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		final boolean inUse = regEJB.alreadyUsed(username);
 		UsernameAlreadyUsedVO res = new UsernameAlreadyUsedVO();
 		res.setAlreadyUsed(inUse);
