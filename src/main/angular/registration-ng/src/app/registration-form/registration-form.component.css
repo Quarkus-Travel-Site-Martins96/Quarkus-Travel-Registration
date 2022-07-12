@@ -108,11 +108,10 @@ input:focus {
 
 /* BUTTON SECTION */
 .form-element.button-section {
-	width: 30px;
 	height: 30px;
 	display: flex;
-	justify-content: flex-end;
-	margin-left: auto;
+	justify-content: space-between;
+	float: right;
 }
 
 button {
@@ -136,10 +135,8 @@ button span:focus {
 button .bg {
 	height: 100%;
 	width: 100%;
-	background-image: url(../../assets/images/v.png);
 	background-repeat: no-repeat;
 	background-size: contain;
-	background-position: left;
 }
 button span {
 	opacity: 0;
@@ -155,10 +152,24 @@ button:hover {
 button:hover span {
 	line-height: 30px;
 	opacity: 1;
-	padding-left: 30px;
 	font-weight: bold;
 	color: #eee;
 	transition: 1s;
+}
+button:hover .bg.send span {
+	padding-right: 30px;
+}
+button:hover .bg.back span {
+	padding-left: 30px;
+}
+
+button .bg.send {
+	background-image: url(../../assets/images/v.png);
+	background-position: right;
+}
+button .bg.back {
+	background-image: url(../../assets/images/backarrow.png);
+	background-position: left;
 }
 
 button:disabled {
@@ -172,7 +183,6 @@ button:disabled span{
 button:disabled .bg {
 	background-image: none;
 }
-
 
 .courtesy-page {
 	color: red;
@@ -197,5 +207,10 @@ button:disabled .bg {
 .error.missing-field {
 	font-size: 0.8em;
 	font-style: italic;
+}
+
+re-captcha.is-invalid div {
+	border: 1px solid #dc3545 !important;
+	border-radius: 0.2rem;
 }
 

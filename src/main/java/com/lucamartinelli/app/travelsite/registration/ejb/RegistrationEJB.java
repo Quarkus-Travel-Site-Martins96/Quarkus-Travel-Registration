@@ -22,10 +22,11 @@ public interface RegistrationEJB {
 	 * 
 	 * @param username - For the check
 	 * @return A boolean that indicate:
-	 *   <code>TRUE</code> - means that username is already in use and not valid for a new registration
-	 *   <code>FALSE</code> - means that username is free and available for a new registration
+	 *   <code>2</code> - means that username is not valid or contains invalid characters
+	 *   <code>1</code> - means that username is already in use and not valid for a new registration
+	 *   <code>0</code> - means that username is free and available for a new registration
 	 */
-	public Boolean alreadyUsed(String username);
+	public Short alreadyUsed(String username);
 	
 	/**
 	 * Check if the user data are valid for the registration

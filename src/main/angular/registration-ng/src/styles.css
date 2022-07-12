@@ -58,3 +58,20 @@ i {font-family: luois-sans-italic;}
 
 form, input, button, div {z-index: 100}
 ul,il {z-index: 1}
+
+.space-5 {
+	padding-top: 5px;
+	clear: both;
+}
+.space-10 {
+	padding-top: 10px;
+	clear: both;
+}
+.space-25 {
+	margin-top: 25px;
+	clear: both;
+}
+.space-100 {
+	margin-top: 100px;
+	clear: both;
+}

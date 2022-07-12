@@ -10,12 +10,20 @@
 				<span class="loading-username-check" *ngIf="usernameChecking">
 					<img src="assets/images/loading-username.gif" title="Check Username..."/>
 				</span>
-				<span class="username-passed" *ngIf="usernameFree">
+				<span class="username-passed" *ngIf="usernameValidation === 0">
 					Username is available
 				</span>
-				<span class="error" [style.display]="usernameAlreadyInUse ? 'block' : 'none'">
+				<span class="error" [style.display]="usernameValidation === 1 ? 'block' : 'none'">
 					Username already in use,<br/> 
 					please select another one
+				</span>
+				<span class="error" [style.display]="usernameValidation === 2 ? 'block' : 'none'">
+					Username is invalid.<br/>
+					Use only alphanumeric characters
+				</span>
+				<span class="error" [style.display]="usernameValidation === 3 ? 'block' : 'none'">
+					Backend server error,<br/>
+					try again later
 				</span>
 				<span class="error missing-field" [style.display]="usernameMissing ? 'block' : 'none'">
 					Field username is required
@@ -68,7 +76,7 @@
 				<button type="submit" class="usermanager-btn"
 					[disabled]="usernameChecking"
 					id="user-update-button">
-					<div class="bg">
+					<div class="bg send">
 						<span id="user-update-button-span">{{ subBtnText }}</span>
 					</div>
 				</button>

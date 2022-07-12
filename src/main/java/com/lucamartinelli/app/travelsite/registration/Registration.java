@@ -34,12 +34,12 @@ public class Registration {
 	@Context HttpServletResponse response;
 	
 	@GET
-	@Path("/already-used/{username}")
+	@Path("/check-username/{username}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public UsernameAlreadyUsedVO alreadyInUse(@PathParam("username") String username) {
-		final boolean inUse = regEJB.alreadyUsed(username);
+		final short inUse = regEJB.alreadyUsed(username);
 		UsernameAlreadyUsedVO res = new UsernameAlreadyUsedVO();
-		res.setAlreadyUsed(inUse);
+		res.setUsernameStatus(inUse);
 		
 		return res;
 	}

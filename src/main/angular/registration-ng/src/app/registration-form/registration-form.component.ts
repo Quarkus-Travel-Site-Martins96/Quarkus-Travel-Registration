@@ -38,8 +38,7 @@ export class RegistrationFormComponent implements OnInit {
 	emailMissing: boolean = false;
 
 	usernameChecking: boolean = false;
-	usernameAlreadyInUse: boolean = false;
-	usernameFree: boolean = false;
+	usernameValidation: number = undefined;
 
 	beError: boolean = false;
 	regHost: string;
@@ -49,8 +48,33 @@ export class RegistrationFormComponent implements OnInit {
     }
 
 	ngOnInit(): void {
-		this.subBtnText = "Register Now";
+		this.subBtnText = "Confirm";
 		this.regHost = Environment.getRegistrationHost();
+
+		if (localStorage.getItem("reg_username")) {
+			this.username = localStorage.getItem("reg_username");
+			localStorage.removeItem("reg_username");
+		}
+		if (localStorage.getItem("reg_name")) {
+			this.name = localStorage.getItem("reg_name");
+			localStorage.removeItem("reg_name");
+		}
+		if (localStorage.getItem("reg_surname")) {
+			this.surname = localStorage.getItem("reg_surname");
+			localStorage.removeItem("reg_surname");
+		}
+		if (localStorage.getItem("reg_country")) {
+			this.country = localStorage.getItem("reg_country");
+			localStorage.removeItem("reg_country");
+		}
+		if (localStorage.getItem("reg_birthdate")) {
+			this.birthdate = localStorage.getItem("reg_birthdate");
+			localStorage.removeItem("reg_birthdate");
+		}
+		if (localStorage.getItem("reg_email")) {
+			this.email = localStorage.getItem("reg_email");
+			localStorage.removeItem("reg_email");
+		}
 	}
 	
 	OnDateChange(date: Date): void {
@@ -60,34 +84,22 @@ export class RegistrationFormComponent implements OnInit {
 	private usernameCheckingFnc(b: boolean): void {
 		this.usernameChecking = b;
 		if (!b) {
-			this.subBtnText = "Register Now";
+			this.subBtnText = "Confirm";
 		} else {
 			this.subBtnText = "Wait...";
 		}
 	}
 
-	checkUsername() {
+	async checkUsername() {
 		this.resetChecks();
 		this.usernameCheckingFnc(true);
-		this.checkUsernameCall();
+		await this.checkUsernameCall();
 	}
 	
-	update(): void {
-		this.resetChecks();
-		this.checkFields();
-		localStorage.setItem('reg_username', this.username);
-		localStorage.setItem('reg_name', this.name);
-		localStorage.setItem('reg_surname', this.surname);
-		localStorage.setItem('reg_country', this.country);
-		localStorage.setItem('reg_email', this.email);
-		localStorage.setItem('reg_birthdate', this.birthdate);
-	}
-
 	private resetChecks(): void {
 		this.beError = false;
-		this.usernameFree = false;
+		this.usernameValidation = undefined;
 		this.usernameMissing = false;
-		this.usernameAlreadyInUse = false;
 		this.usernameCheckingFnc(false);
 		this.nameMissing = false;
 		this.surnameMissing = false;
@@ -96,8 +108,8 @@ export class RegistrationFormComponent implements OnInit {
 		this.birthdateMissing = false;
 	}
 
-	private checkFields(): boolean {
-		this.checkUsername();
+	private async checkFields(): Promise<boolean> {
+		await this.checkUsername();
 		if (!this.username) {
 			this.usernameMissing = true;
 			console.debug("Missing username");
@@ -128,10 +140,7 @@ export class RegistrationFormComponent implements OnInit {
 			console.debug("Missing email");
 			return false;
 		}
-		while(this.checkUsername) {
-			setTimeout(() => {}, 100);
-		}
-		if (this.usernameAlreadyInUse) {
+		if (this.usernameValidation !== 0) {
 			console.debug("Username " + this.username + " already taked");
 			return false;
 		}
@@ -150,40 +159,49 @@ export class RegistrationFormComponent implements OnInit {
 		if (this.sub)
 			this.sub.unsubscribe();
 		const observ: Observable<HttpResponse<UsernameAlreadyUsedResponse>> = this.rest
-				.sendGet<UsernameAlreadyUsedResponse>(this.regHost + "/registration/already-used/" + this.username, new HttpHeaders({
-					'content-type': 'application/json'
+				.sendGet<UsernameAlreadyUsedResponse>(this.regHost + "/registration/check-username/" + this.username, new HttpHeaders({
+					'accept': 'application/json'
 				}));
-		const res: boolean = await firstValueFrom(observ)
-			.then(b =>{
-				if (!b || !b.ok) {
-					this.beError = true;
-					console.debug("REST response KO");
-					return true;
-				} else if (!b.body) {
-					this.beError = true;
-					console.debug("REST response empty payload");
-					return true;
-				} else {
-					this.beError = false;
-					console.debug('Rest call finished, response: ', b.body);
-					const res: boolean = b.body.alreadyUsed;
-					if (!res) {
-						this.usernameFree = true;
+		const res: number = await firstValueFrom(observ)
+			.then(b => {
+					if (!b || !b.ok || !b.body) {
+						this.beError = true;
+						console.debug("REST response KO");
+						return 3;
+					} else {
+						this.beError = false;
+						console.debug('Rest call finished, response: ', b.body);
+						return b.body.usernameStatus;
 					}
-					return res;
+				},
+				err => {
+					console.log("Error in BE call!", err);
+					this.beError = true;
+					return 3;
 				}
-			},
-			err => {
-				console.log("Error in BE call!", err);
-				this.beError = true;
-				return true;
-			})
+			)
 			.finally(() => {
 				this.usernameCheckingFnc(false);
 			});
 
-		this.usernameAlreadyInUse = res;
-		console.debug("Is " + this.username + " already in use? " + this.usernameAlreadyInUse);
+		this.usernameValidation = res;
+		console.debug("Username " + this.username + " status = " + res);
 	} 
+
+	async update() {
+		this.resetChecks();
+		const checksPassed: boolean = await this.checkFields();
+		if (!checksPassed) {
+			console.debug("Form checks are not good");
+			return;
+		}
+		localStorage.setItem('reg_username', this.username);
+		localStorage.setItem('reg_name', this.name);
+		localStorage.setItem('reg_surname', this.surname);
+		localStorage.setItem('reg_country', this.country);
+		localStorage.setItem('reg_email', this.email);
+		localStorage.setItem('reg_birthdate', this.birthdate);
+		location.href = "/?navPage=step2";
+	}
 
 }

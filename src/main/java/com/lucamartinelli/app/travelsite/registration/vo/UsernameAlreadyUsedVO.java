@@ -12,46 +12,57 @@ public class UsernameAlreadyUsedVO implements Serializable {
 	
 	private static final long serialVersionUID = 6885705445852742170L;
 	
-	Boolean alreadyUsed;
+	Short usernameStatus;
 
-	public Boolean getAlreadyUsed() {
-		return alreadyUsed;
+	
+	public UsernameAlreadyUsedVO() {
+	}
+	
+	public UsernameAlreadyUsedVO(final Short usernameStatus) {
+		super();
+		this.usernameStatus = usernameStatus;
 	}
 
-	public void setAlreadyUsed(Boolean alreadyUsed) {
-		this.alreadyUsed = alreadyUsed;
+	public Short getUsernameStatus() {
+		return usernameStatus;
+	}
+
+	public void setUsernameStatus(final Short usernameStatus) {
+		this.usernameStatus = usernameStatus;
 	}
 
 	@Override
 	public String toString() {
-		return "UsernameAlreadyUsedVO [alreadyUsed=" + alreadyUsed + "]";
+		return "UsernameAlreadyUsedVO [usernameStatus=" + usernameStatus + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((alreadyUsed == null) ? 0 : alreadyUsed.hashCode());
+		result = prime * result + ((usernameStatus == null) ? 0 : usernameStatus.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UsernameAlreadyUsedVO other = (UsernameAlreadyUsedVO) obj;
-		if (alreadyUsed == null) {
-			if (other.alreadyUsed != null)
+		final UsernameAlreadyUsedVO other = (UsernameAlreadyUsedVO) obj;
+		if (usernameStatus == null) {
+			if (other.usernameStatus != null)
 				return false;
-		} else if (!alreadyUsed.equals(other.alreadyUsed))
+		} else if (!usernameStatus.equals(other.usernameStatus))
 			return false;
 		return true;
 	}
+
 	
+
 	
 	
 }

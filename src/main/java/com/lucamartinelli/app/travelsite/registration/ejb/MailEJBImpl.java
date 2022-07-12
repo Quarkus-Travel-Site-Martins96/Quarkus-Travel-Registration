@@ -45,6 +45,13 @@ public class MailEJBImpl implements MailEJB {
 		}
 		
 		final Mail mail = createMail(user, token);
+		if (log.isDebugEnabled()) {
+			log.debug("Mail generated:\n" +
+					"\nFrom: " + mail.getFrom() +
+					"\nTo  : " + mail.getTo().toString() +
+					"\nSubj: " + mail.getSubject() +
+					"\nBody: " + mail.getHtml());
+		}
 		mailer.send(mail);
 	}
 	

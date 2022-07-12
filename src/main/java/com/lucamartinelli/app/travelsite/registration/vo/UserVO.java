@@ -30,12 +30,13 @@ public class UserVO implements Serializable {
 	private String country;
 	private String avatar;
 	private String password;
+	private String tokenCapcha;
 	
 	public UserVO() {
 	}
 
 	public UserVO(String username, String email, Set<String> groups, String birthdate, String name, String surname,
-			String country, String avatar, String password) {
+			String country, String avatar, String password, String tokenCapcha) {
 		super();
 		this.username = username;
 		this.email = email;
@@ -46,6 +47,7 @@ public class UserVO implements Serializable {
 		this.country = country;
 		this.avatar = avatar;
 		this.password = password;
+		this.tokenCapcha = tokenCapcha;
 	}
 
 	public String getUsername() {
@@ -109,17 +111,19 @@ public class UserVO implements Serializable {
 		this.password = password;
 	}
 
+	public String getTokenCapcha() {
+		return tokenCapcha;
+	}
+
+	public void setTokenCapcha(String tokenCapcha) {
+		this.tokenCapcha = tokenCapcha;
+	}
+
 	@Override
 	public String toString() {
-		String base64 = this.avatar;
-		
-		if (base64 != null && base64.length() > 60)
-			base64 = new String(base64.substring(0,50) + "..." + base64.substring(base64.length()-51));
-		
-		
 		return "UserVO [username=" + username + ", email=" + email + ", groups=" + groups + ", birthdate=" + birthdate
-				+ ", name=" + name + ", surname=" + surname + ", country=" + country + ", avatar=" + base64 + 
-				", password=" + password + "]";
+				+ ", name=" + name + ", surname=" + surname + ", country=" + country + ", avatar=" + avatar
+				+ ", password=" + password + ", tokenCapcha=" + tokenCapcha + "]";
 	}
 
 	@Override
@@ -132,9 +136,10 @@ public class UserVO implements Serializable {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((groups == null) ? 0 : groups.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result + ((tokenCapcha == null) ? 0 : tokenCapcha.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -177,20 +182,25 @@ public class UserVO implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
 		if (surname == null) {
 			if (other.surname != null)
 				return false;
 		} else if (!surname.equals(other.surname))
 			return false;
+		if (tokenCapcha == null) {
+			if (other.tokenCapcha != null)
+				return false;
+		} else if (!tokenCapcha.equals(other.tokenCapcha))
+			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
 		} else if (!username.equals(other.username))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
 			return false;
 		return true;
 	}
@@ -206,6 +216,7 @@ public class UserVO implements Serializable {
 				.add("surname", surname == null ? "" : surname)
 				.add("country", country == null ? "" : country)
 				.add("password", password == null ? "" : password)
+				.add("tokenCapcha", avatar == null ? "" : tokenCapcha)
 				.add("avatar", avatar == null ? "" : avatar);
 		
 		groups.forEach(jab::add);
@@ -227,6 +238,7 @@ public class UserVO implements Serializable {
 		user.country = root.getString("country");
 		user.avatar = root.getString("avatar");
 		user.password = root.getString("password");
+		user.tokenCapcha = root.getString("tokenCapcha");
 		final Set<String> groups = new HashSet<>(0);
 		
 		root.getJsonArray("groups").getValuesAs(JsonString.class)

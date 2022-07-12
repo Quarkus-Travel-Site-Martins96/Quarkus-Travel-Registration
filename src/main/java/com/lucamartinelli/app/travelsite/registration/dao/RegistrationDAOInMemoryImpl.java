@@ -17,6 +17,13 @@ public class RegistrationDAOInMemoryImpl implements RegistrationDAO {
 	@Inject Logger log;
 	
 	@Override
+	public boolean insertPending(UserVO user, String token) throws SQLException {
+		log.debug("IN_MEMORY mode for [insertPending]");
+		log.debug("Return registered fake pending");
+		return true;
+	}
+	
+	@Override
 	public boolean registerUser(UserVO user) throws SQLException {
 		log.debug("IN_MEMORY mode for [registerUser]");
 		log.debug("Return registered fake user");

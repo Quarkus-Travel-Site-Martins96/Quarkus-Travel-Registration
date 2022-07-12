@@ -1,0 +1,47 @@
+<div class="formdata">
+	<form (ngSubmit)="update()">
+        <div class="registration-form">
+            <div class="form-element input-section">
+                <label for="name-input">Password</label> <input type="password"
+					class="registration-input-text input-username" id="password1" name="password1"
+					[style.border-color]="pwd1Missing ? '#c11' : '#666'"
+					[(ngModel)]="pwd1"/>
+                <label for="name-input">Confirm Password</label> <input type="password"
+					class="registration-input-text input-username" id="password2" name="password2"
+					[style.border-color]="pwd1Missing ? '#c11' : '#666'"
+					[(ngModel)]="pwd2"/>
+
+                <span class="error" *ngIf="pwdMissmatch">
+                    Password inserted not match
+                </span>
+
+                <div class="space-10"></div>
+                <div class="">
+                    <re-captcha id="recaptcha" name="recaptcha" #recaptcha="ngModel" [(ngModel)]="token" required [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"></re-captcha>
+                    <div *ngIf="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)" class="invalid-feedback">
+                      <div *ngIf="recaptcha.errors?.['required']">This field is required.</div>
+                    </div>
+                  </div>
+                <div class="space-10"></div>
+
+                <div class="form-element button-section">
+                    <button type="button" class="usermanager-btn"
+                    [disabled]="sendingRequest"
+                    id="user-back-button"
+                    (click)="backPage()">
+                        <div class="bg back">
+                            <span id="user-update-button-span">Back</span>
+                        </div>
+                    </button>
+                    <button type="submit" class="usermanager-btn"
+                        [disabled]="sendingRequest"
+                        id="user-update-button">
+                        <div class="bg send">
+                            <span id="user-update-button-span">Register now</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
