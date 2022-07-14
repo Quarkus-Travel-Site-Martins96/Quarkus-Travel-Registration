@@ -1,24 +1,45 @@
+html {
+    min-height:100%;
+    position:relative;
+}
+
+body {
+    height:100%;
+}
+
 .container {
     display: flex;
     background-image: url(../../assets/images/ty-bg.jpg);
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: cover;
+
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    overflow:hidden;
+
     z-index: 1;
     font-weight: bold;
-}
-
-.container div{
-    min-width: 200px;
-    width: 20%;
+    height: 100%;
+    padding-top: 40px;
 }
 
 
 .editorial {
-    padding: 5px 10px 25px 10px;
-    margin-top: 40px;
+    width: 20%;
+    height: 100%;
+    min-width: 300px;
     text-align: center;
     z-index: 3;
     background-color: #fffc;
-    height: calc(100% - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-editorial {
+    width: 100%;
 }

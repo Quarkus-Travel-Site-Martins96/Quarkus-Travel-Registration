@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import com.lucamartinelli.app.travelsite.registration.ejb.RegistrationEJB;
@@ -30,6 +31,9 @@ public class Registration {
 	@Inject Logger log;
 	
 	@Inject RegistrationEJB regEJB;
+	
+	@ConfigProperty(name = "recaptcha.site", defaultValue = "-")
+	@Inject String captchaKeysite;
 	
 	@Context HttpServletResponse response;
 	
@@ -91,6 +95,13 @@ public class Registration {
     	}
     }
     
+    @GET
+    @Path("/captcha-keysite")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getCaptchaKeysite() {
+    	return captchaKeysite;
+    }
+    
     
     private void setError(int code, String msg) {
     	try {
@@ -100,4 +111,6 @@ public class Registration {
 			throw new RuntimeException(e);
 		}
     }
+    
+    
 }

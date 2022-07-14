@@ -1,0 +1,49 @@
+html {
+    min-height:100%;
+    position:relative;
+}
+
+body {
+    height:100%;
+}
+
+.container {
+    display: flex;
+    background-image: url(../../assets/images/courtesy-bg.jpg);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    overflow:hidden;
+
+    z-index: 1;
+    font-weight: bold;
+    height: 100%;
+    padding-top: 40px;
+}
+
+
+.editorial {
+    width: 50%;
+    min-width: 300px;
+    height: fit-content;
+    margin: 5% auto 0 auto;
+    padding: 20px 0;
+    text-align: center;
+    background-color: #fffd;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 0 10px 1px #aaa;
+}
+
+.text-editorial {
+    width: 100%;
+}

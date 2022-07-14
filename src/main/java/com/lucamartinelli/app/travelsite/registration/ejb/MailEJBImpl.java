@@ -26,10 +26,10 @@ public class MailEJBImpl implements MailEJB {
 	Mailer mailer;
 	
 	@ConfigProperty(name="registration.host", defaultValue = "http://localhost:7171")
-	String hostRegistration;
+	@Inject String hostRegistration;
 	
 	@ConfigProperty(name = "registration.mail.subject", defaultValue = "Welcome to Simple Travel Site")
-	String subject;
+	@Inject String subject;
 	
 	String MAIL_BODY_CLASSPATH = "META-INF/mail/body.html";
 	

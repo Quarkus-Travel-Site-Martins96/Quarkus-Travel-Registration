@@ -17,6 +17,7 @@ import { RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings, RECAPTCHA_SET
 
 import { RoutesUtils } from './routes.utils';
 import { CourtesyPageComponent } from './courtesy-page/courtesy-page.component';
+import { RestServiceCaptcha } from './rest-service-captcha';
 
 const routes: Routes = RoutesUtils.getRoutes();
 
@@ -46,7 +47,7 @@ const routes: Routes = RoutesUtils.getRoutes();
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: {
-        siteKey: "6Lci1NIgAAAAALb0yqzmBBaiV0kOWXPnOZczl5pw",
+        siteKey: RestServiceCaptcha.getKeySite(),
       } as RecaptchaSettings,
     }
   ],
