@@ -28,4 +28,12 @@ public interface CryptoEJB {
 	 */
 	public UserVO decryptUser(String token);
 	
+	
+	/**
+	 * This method will hash a string using algorithm <code>Add algorithm</code>
+	 * 
+	 * @param clear string to hash
+	 * @return The string hashed
+	 */
+	public String hashString(String cleanString);
 }

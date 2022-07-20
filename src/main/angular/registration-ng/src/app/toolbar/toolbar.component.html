@@ -3,13 +3,18 @@
 		<nav>
 			<div class="logo"><a [href]="homeUrl"><span>LOGO</span></a></div>
 			
-			<div *ngIf="!cookieJWT" class="login"><a [href]="loginUrl"><span>LOGIN</span></a></div>
+			<div *ngIf="!cookieJWT" class="login">
+				<a [href]="loginUrl"><span>LOGIN</span></a>
+				<span> - </span>
+				<a [href]="registrationUrl"><span>REGISTRATION</span></a>
+			</div>
 			<div *ngIf="cookieJWT" class="logged">
 				<div class="user-mngmnt">
 					<a [href]="userManagementUrl">Edit user</a>
 					<a [href]="homeUrl" (click)="logout()">Logout</a>
 				</div>
-				<img [src]="jwt.avatar" [alt]="jwt.name" />
+				<img [src]="jwt.avatar" [alt]="jwt.name" *ngIf="jwt.avatar" />
+				<img [src]="DEFAULT_AVATAR" [alt]="jwt.name" *ngIf="!jwt.avatar" />
 			</div>
 		</nav>
 	</div>

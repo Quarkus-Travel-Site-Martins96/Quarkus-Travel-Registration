@@ -18,6 +18,7 @@ import { RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings, RECAPTCHA_SET
 import { RoutesUtils } from './routes.utils';
 import { CourtesyPageComponent } from './courtesy-page/courtesy-page.component';
 import { RestServiceCaptcha } from './rest-service-captcha';
+import { MailValidationTyComponent } from './mail-validation-ty/mail-validation-ty.component';
 
 const routes: Routes = RoutesUtils.getRoutes();
 
@@ -30,7 +31,8 @@ const routes: Routes = RoutesUtils.getRoutes();
 	  ToolbarComponent,
     RegistrationForm2Component,
     RegContainer2Component,
-    CourtesyPageComponent
+    CourtesyPageComponent,
+    MailValidationTyComponent
   ],
   imports: [
     BrowserModule,

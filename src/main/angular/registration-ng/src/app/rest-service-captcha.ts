@@ -9,7 +9,7 @@ export class RestServiceCaptcha {
 		let keySite: string;
 		
 		var request = new XMLHttpRequest();
-		request.open('GET', '/registration/captcha-keysite', false);
+		request.open('GET', appUrl+'/registration/captcha-keysite', false);
 		request.send();
 		
 		if (request.status === 200) {

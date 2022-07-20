@@ -38,9 +38,9 @@ export class RegistrationForm2Component implements OnInit {
   checkPasswords(): boolean {
     this.resetFlags();
     if (this.pwd1 === this.pwd2)
-      this.pwdMissmatch = true;
-    else
       this.pwdMissmatch = false;
+    else
+      this.pwdMissmatch = true;
     return this.pwdMissmatch
   }
 
@@ -48,12 +48,12 @@ export class RegistrationForm2Component implements OnInit {
     this.sendingRequest = true;
     try {
       this.resetFlags();
-      if (!this.checkPasswords()) {
-        this.pwdMissmatch = true;
+      if (this.checkPasswords()) {
         return;
-      } else {
-        await this.executionUpdate();
-      }
+      } 
+      
+      await this.executionUpdate();
+      
     } finally {
       this.sendingRequest = false; 
     }
@@ -77,8 +77,6 @@ export class RegistrationForm2Component implements OnInit {
       password: this.pwd1,
       tokenCapcha: this.token
     }
-
-
 
     await this.callRegisterSvc(createUserRequest)
       .then(r => {

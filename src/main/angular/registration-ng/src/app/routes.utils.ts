@@ -1,5 +1,6 @@
 import { Routes, UrlMatchResult, UrlSegment } from "@angular/router";
 import { CourtesyPageComponent } from "./courtesy-page/courtesy-page.component";
+import { MailValidationTyComponent } from "./mail-validation-ty/mail-validation-ty.component";
 import { RegContainerComponent } from "./reg-container/reg-container.component";
 import { RegContainer2Component } from "./reg-container2/reg-container2.component";
 import { TypageComponent } from "./typage/typage.component";
@@ -27,6 +28,10 @@ export class RoutesUtils {
         {
           matcher: (u) => this.checkQSUrl(u, "courtesy"),
           component: CourtesyPageComponent
+        },
+        {
+          matcher: (u) => this.checkQSUrl(u, "mail-validation"),
+          component: MailValidationTyComponent
         },
         { path: "pippo", component: RegContainerComponent },
         { path: "", component: RegContainerComponent }

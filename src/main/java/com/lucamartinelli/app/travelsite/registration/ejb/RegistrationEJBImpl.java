@@ -150,6 +150,15 @@ public class RegistrationEJBImpl implements RegistrationEJB {
 		log.debug("Encrypting user information");
 		final String regToken = cryptEJB.entryptUser(user);
 		
+		try {
+			log.debug("Replace clean password with an hashed one");
+			final String pwdHashed = cryptEJB.hashString(user.getPassword()); 
+			user.setPassword(pwdHashed); 
+		} catch (RuntimeException e) {
+			log.error("Error hashing password");
+			throw new RegistrationException(500, "Hashing algorithm error");
+		}
+		
 		log.debug("Insert pending user on DB");
 		boolean insertResult = false;
 		try {

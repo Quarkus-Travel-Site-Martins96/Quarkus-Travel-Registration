@@ -99,6 +99,7 @@ public class Registration {
     @Path("/captcha-keysite")
     @Produces(MediaType.TEXT_PLAIN)
     public String getCaptchaKeysite() {
+    	log.debug("Loading captcha key: " + captchaKeysite);
     	return captchaKeysite;
     }
     

@@ -1,10 +1,11 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { Environment } from 'src/environments/environment';
-import { CookieManager } from '../cookie-utils';
 import { RestService } from '../rest-service';
 import { JWT } from './jwt-decode-vo';
+import { DefaultAvatar } from './default.avatar';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
 	selector: 'app-toolbar',
@@ -18,40 +19,42 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
 	homeUrl: string = Environment.getHomeHost();
 	loginUrl: string = Environment.getLoginHost();
 	userManagementUrl: string = Environment.getUserManagerHost();
+	registrationUrl: string = Environment.getRegistrationHost();
 
 	jwt: JWT = new JWT();
 	cookieJWT: string;
 
-	private sub: Subscription;
+	DEFAULT_AVATAR : string = DefaultAvatar.DEFAULT_AVATAR;
 
-	constructor(private cookieMng: CookieManager, private rest: RestService) {
-		this.cookieJWT = this.cookieMng.getCookie('user.jwt');
+	constructor(private cookies: CookieService, private rest: RestService) {
+		this.cookieJWT = this.cookies.get('user.jwt');
 	}
 
 
 	ngOnInit(): void {
-		if (this.sub)
-			this.sub.unsubscribe();
 
 		if (this.cookieJWT) {
 			
 			//JWT found, check if is valid
-			this.sub = this.rest.sendPost<JWT>(this.validateUrl, this.cookieJWT, new HttpHeaders({
+			const obsv: Observable<HttpResponse<JWT>> = this.rest.sendPost<JWT>(this.validateUrl, this.cookieJWT, new HttpHeaders({
 				'content-type': 'text/plain'
 			}))
-				.subscribe((resp) => {
-					//JWT correct, move to Home Page
-					this.jwt = resp.body;
-				}, error => {
-					//JWT non correct or service not available
-					if (error.status === 401) {
-						console.error('The token JWT is not valid, relogin required', error)
-						this.logout();
-					} else {
-						console.error('The call is not end correct', error)
-						this.jwt = null;
-					}
-				})
+
+			firstValueFrom(obsv)
+					.then((resp) => {
+						//JWT correct, move to Home Page
+						this.jwt = resp.body;
+					})
+					.catch(error => {
+						//JWT non correct or service not available
+						if (error.status === 401) {
+							console.error('The token JWT is not valid, relogin required', error)
+							this.logout();
+						} else {
+							console.error('The call is not end correct', error)
+							this.jwt = null;
+						}
+					});
 		}
 	}
 
@@ -69,7 +72,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
 	}
 	
 	logout(): void {
-		this.cookieMng.deleteCookie('user.jwt');
+		this.cookies.delete('user.jwt');
 		window.top.location.href = this.homeUrl;
 	}
 
