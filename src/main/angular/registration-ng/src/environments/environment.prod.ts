@@ -47,6 +47,12 @@ export class Environment {
 			this.singleton.registrationHost = RestServiceEnvUrl.getHostUrl('registration');
 		return this.singleton.registrationHost;
 	}
+
+	public static getStaticContentHost(): string {
+		if (!this.singleton.staticContentHost)
+			this.singleton.staticContentHost = RestServiceEnvUrl.getHostUrl('static-content');
+		return this.singleton.staticContentHost;
+	}
 	
 	
 	

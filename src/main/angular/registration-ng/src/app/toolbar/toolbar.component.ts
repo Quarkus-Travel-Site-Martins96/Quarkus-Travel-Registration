@@ -20,10 +20,13 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
 	loginUrl: string = Environment.getLoginHost();
 	userManagementUrl: string = Environment.getUserManagerHost();
 	registrationUrl: string = Environment.getRegistrationHost();
+	staticContentHost: string = Environment.getStaticContentHost();
 
 	jwt: JWT = new JWT();
 	cookieJWT: string;
 
+	isAvatarExists: boolean = false;
+	avatarSrc: string | ArrayBuffer;
 	DEFAULT_AVATAR : string = DefaultAvatar.DEFAULT_AVATAR;
 
 	constructor(private cookies: CookieService, private rest: RestService) {
@@ -42,8 +45,10 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
 
 			firstValueFrom(obsv)
 					.then((resp) => {
-						//JWT correct, move to Home Page
+						//JWT correct, setting the token information
 						this.jwt = resp.body;
+						// Loading avatar image
+						this.isUserAvatarSet();
 					})
 					.catch(error => {
 						//JWT non correct or service not available
@@ -74,6 +79,52 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
 	logout(): void {
 		this.cookies.delete('user.jwt');
 		window.top.location.href = this.homeUrl;
+	}
+
+
+	private isUserAvatarSet(): void {
+		if (!this.cookieJWT) {
+			this.isAvatarExists = false;
+			return;
+		}
+
+		
+		const isAvatarExistsUrl = this.staticContentHost + "/avatarExists/" + this.jwt.avatar;
+		const obsv: Observable<HttpResponse<boolean>> = this.rest.sendGet<boolean>(isAvatarExistsUrl, new HttpHeaders({
+			'content-type': 'text/plain'
+		}))
+
+		firstValueFrom(obsv)
+				.then((resp) => {
+					if (resp.body) {
+						this.isAvatarExists = true;
+						this.getAvatar(this.jwt.avatar);
+					} else {
+						this.isAvatarExists = false;
+					}
+				})
+				.catch(error => {
+					console.error("Error getting avatar, returning false as default: ", error);
+					this.isAvatarExists = false;
+				});
+	}
+
+
+	async getAvatar(filename: string): Promise<void> {
+		const getAvatarUrl = this.staticContentHost + "/get/" + filename;
+		const obsv: Observable<HttpResponse<Blob>> = this.rest.sendGetAvatar(getAvatarUrl)
+
+		await firstValueFrom(obsv)
+				.then((resp) => {
+					var reader = new FileReader();
+ 					reader.readAsDataURL(resp.body)
+					reader.onload = (_event) => {
+						this.avatarSrc = reader.result;
+					}
+				})
+				.catch(error => {
+					console.error("Error getting avatar: ", error);
+				});
 	}
 
 }

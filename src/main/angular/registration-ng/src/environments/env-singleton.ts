@@ -5,6 +5,7 @@ export class EnvSingleton {
 	private _loginHost: string;
 	private _userMngHost: string;
 	private _registration: string;
+	private _staticContent: string;
     
 
     /**
@@ -55,6 +56,12 @@ export class EnvSingleton {
         this._registration = value;
     }
     public get registrationHost(): string {
+        return this._registration;
+    }
+    public set staticContentHost(value: string) {
+        this._registration = value;
+    }
+    public get staticContentHost(): string {
         return this._registration;
     }
 }

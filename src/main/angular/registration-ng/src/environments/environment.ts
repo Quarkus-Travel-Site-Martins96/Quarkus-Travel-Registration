@@ -43,5 +43,9 @@ export class Environment {
 	public static getRegistrationHost(): string {
 		return "http://localhost:7171";
 	}
+
+	public static getStaticContentHost(): string {
+		return "https://localhost:5000";
+	}
 	
 }

@@ -13,8 +13,9 @@
 					<a [href]="userManagementUrl">Edit user</a>
 					<a [href]="homeUrl" (click)="logout()">Logout</a>
 				</div>
-				<img [src]="jwt.avatar" [alt]="jwt.name" *ngIf="jwt.avatar" />
-				<img [src]="DEFAULT_AVATAR" [alt]="jwt.name" *ngIf="!jwt.avatar" />
+				<div *ngIf="isAvatarExists; then user_avatar else default_avatar"></div>
+				<ng-template #user_avatar><img [src]="avatarSrc" [alt]="jwt.name" /></ng-template>
+				<ng-template #default_avatar><img [src]="DEFAULT_AVATAR" [alt]="jwt.name" /></ng-template>
 			</div>
 		</nav>
 	</div>

@@ -13,8 +13,6 @@ import java.net.URL;
 import javax.json.Json;
 import javax.json.JsonObject;
 
-import io.quarkus.logging.Log;
-
 public class RecaptchaUtils {
 	
 	

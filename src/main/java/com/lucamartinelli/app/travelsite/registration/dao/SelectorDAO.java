@@ -2,8 +2,6 @@ package com.lucamartinelli.app.travelsite.registration.dao;
 
 import java.lang.annotation.Annotation;
 
-import javax.enterprise.inject.Alternative;
-import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
